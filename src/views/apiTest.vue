@@ -26,6 +26,7 @@
                     <br>
                     <el-button type="primary" @click="getResult()">GET</el-button>
                     <el-button type="primary" @click="postResult()">POST</el-button>
+                    <el-button type="primary" @click="resetToDefault()">RESET</el-button>
                 </el-card>
             </el-col>
             <el-col :span="14">
@@ -101,15 +102,25 @@ export default {
             rootUrl: this.$api.rootUrl,
             path: "",
             result: {},
-            param: "",
+            param: "{}",
             content: "",
             editorOption: {
-               placeholder: '编辑内容'
+               placeholder: '编辑内容',
             },
             quill: "",
             imgUrl: "",
 
         }
+    },
+    created(){
+        let rootUrl = window.sessionStorage.getItem("rootUrl");
+        if (rootUrl != null) { this.rootUrl = rootUrl; }
+        let path = window.sessionStorage.getItem("path");
+        if (path != null) { this.path = path; }
+        let param = window.sessionStorage.getItem("param");
+        if (param != null) { this.param = param; }
+        let content = window.sessionStorage.getItem("content");
+        if (content != null) { this.content = content; }
     },
     computed: {
         fullUrl: function(){
@@ -126,11 +137,18 @@ export default {
         },
     },
     methods: {
+        resetToDefault(){
+            this.rootUrl = this.$api.rootUrl;
+            this.path = "";
+            this.param = "{}";
+            this.content = "";
+            this.setStorage();
+        },
         async getResult(){
             let result_temp = await this.$http
                 .get(this.fullUrl);
             if (result_temp != null ){
-                this.result = result_temp;
+                this.result = result_temp.data;
             }
             if (result_temp.data.quill != null ){
                 this.quill = result_temp.data.quill;
@@ -139,13 +157,14 @@ export default {
                 this.imgUrl = result_temp.data.imgUrl;
             }
             console.log(result_temp);
+            this.setStorage();
             
         },
         async postResult(){
             let result_temp = await this.$http
                 .post(this.fullUrl, this.paramObject);
             if (result_temp != null ){
-                this.result = result_temp;
+                this.result = result_temp.data;
             }
             if (result_temp.data.quill != null ){
                 this.quill = result_temp.data.quill;
@@ -154,9 +173,18 @@ export default {
                 this.imgUrl = result_temp.data.imgUrl;
             }
             console.log(result_temp);
+            this.setStorage();
+        },
+        setStorage(){
+            window.sessionStorage.setItem("rootUrl", this.rootUrl);
+            window.sessionStorage.setItem("path", this.path);
+            window.sessionStorage.setItem("param", this.param);
+            window.sessionStorage.setItem("content", this.content);
         },
         transferToQuill(){
             this.quill = this.content;
+            this.result = this.content;
+            this.setStorage();
         }
     }
 }
