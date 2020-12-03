@@ -12,13 +12,17 @@ import "./assets/css/global.css"
 
 //引入axios
 import axios from 'axios'
+axios.defaults.withCredentials=true
+axios.defaults.crossDomain=true
+
+
 Vue.prototype.$http = axios
 
 //全局api
 import api from './assets/config/api.js'
 Vue.prototype.$api = api
 
-//富文本编辑器
+//富文本编辑器 
 import quillEditor from 'vue-quill-editor'
 Vue.use(quillEditor);
 import 'quill/dist/quill.core.css'
