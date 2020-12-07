@@ -12,7 +12,7 @@ import "./assets/css/global.css"
 
 //引入axios
 import axios from 'axios'
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = false
 axios.defaults.crossDomain = true
 
 
