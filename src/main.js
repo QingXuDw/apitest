@@ -12,8 +12,8 @@ import "./assets/css/global.css"
 
 //引入axios
 import axios from 'axios'
-axios.defaults.withCredentials=true
-axios.defaults.crossDomain=true
+axios.defaults.withCredentials = true
+axios.defaults.crossDomain = true
 
 
 Vue.prototype.$http = axios
@@ -30,6 +30,19 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 import store from './store'
+
+//拦截器 发送请求前,会发送一个token
+axios.interceptors.request.use(config => {
+  var temp;
+  if ((temp = window.sessionStorage.getItem("token")) != null) {
+    config.headers.token = window.sessionStorage.getItem('token');
+  }
+  return config;
+});
+
+//md5加密
+import md5 from 'js-md5'
+Vue.prototype.$md5 = md5
 
 Vue.config.productionTip = false
 
