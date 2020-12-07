@@ -72,7 +72,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="24" class="card-row2">
-      <el-col :span="8">
+      <el-col :span="12">
         <el-card class="quill-card">
           <div id="announce_head">
             <img
@@ -97,7 +97,7 @@
           ></quill-editor>
         </el-card>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="12">
         <el-card class="quill-card">
           <div id="announce_head">
             <img
@@ -111,23 +111,10 @@
           <div v-html="this.quill">{{ this.quill }}</div>
         </el-card>
       </el-col>
-      <el-col :span="8">
-        <el-card class="image-card">
-          <div id="announce_head">
-            <img
-              src="../assets/img/string.png"
-              alt=""
-              style="vertical-align: middle"
-            />
-            <span> <label>图片url返回值</label></span>
-          </div>
-          <el-divider></el-divider>
-          <img width="100%" height="100%" :src="imgUrl" />
-        </el-card>
-      </el-col>
+      
     </el-row>
     <el-row :gutter="24" class="card-row3">
-      <el-col :span="12">
+      <el-col :span="8">
         <el-card class="token-card">
           <div id="announce_head">
             <img
@@ -156,7 +143,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8">
         <el-card class="md5-card">
           <div id="announce_head">
             <img
@@ -186,6 +173,27 @@
             placeholder="md5值"
           >
           </el-input>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card class="image-card">
+          <div id="announce_head">
+            <img
+              src="../assets/img/string.png"
+              alt=""
+              style="vertical-align: middle"
+            />
+            <span> <label>图片url显示</label></span>
+          </div>
+          <el-divider></el-divider>
+          <el-input
+            type="text"
+            v-model="imgUrl"
+            auto-complete="off"
+            placeholder="请在此输入图片url"
+          >
+          </el-input>
+          <img width="100%" height="100%" :src="imgUrl" />
         </el-card>
       </el-col>
     </el-row>
