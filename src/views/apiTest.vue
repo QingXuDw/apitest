@@ -210,14 +210,14 @@
           <el-divider></el-divider>
           <el-input
             type="text"
-            v-model="fileUploadUrl"
+            v-model="fileParam"
             auto-complete="off"
-            placeholder="在此输入目标url"
+            placeholder="在此输入文件参数名"
           >
           </el-input>
           <el-upload
             ref="upload"
-            :action="fileUploadUrl"
+            :action="fullUrl"
             :before-remove="fileBeforeRemove"
             multiple
             :limit="10"
@@ -225,6 +225,7 @@
             :file-list="fileList"
             list-type="picture"
             :auto-upload="false"
+            :name="fileParam"
           >
             <el-button class="button" slot="trigger" size="small" type="primary">选取文件</el-button>
             <el-button class="button" style="margin-left: 10px;" size="small" type="success" @click="fileUpload">上传到服务器</el-button>
@@ -262,7 +263,7 @@ export default {
         //   url: "" 
         // }
       ],
-      fileUploadUrl: "",
+      fileParam: "",
     };
   },
   created() {

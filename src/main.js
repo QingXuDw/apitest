@@ -34,6 +34,7 @@ import store from './store'
 //拦截器 发送请求前,会发送一个token
 axios.interceptors.request.use(config => {
   var temp;
+  console.log(config);
   if ((temp = window.sessionStorage.getItem("token")) != null) {
     config.headers.token = window.sessionStorage.getItem('token');
   }
