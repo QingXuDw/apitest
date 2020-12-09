@@ -16,7 +16,7 @@ axios.defaults.withCredentials = false
 axios.defaults.crossDomain = true
 
 
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 
 //全局api
 import api from './assets/config/api.js'
