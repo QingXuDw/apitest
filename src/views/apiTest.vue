@@ -397,7 +397,7 @@ export default {
         return;
       }
       var formData = new FormData();
-      formData.append(file.name, file);
+      formData.append(param.filename, file);
       self.$refs.upload.uploadFiles[index].percentage = 30;
       var response = await this.$axios.post(
         param.action, 
