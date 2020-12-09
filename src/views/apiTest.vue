@@ -111,7 +111,6 @@
           <div v-html="this.quill">{{ this.quill }}</div>
         </el-card>
       </el-col>
-      
     </el-row>
     <el-row :gutter="24" class="card-row3">
       <el-col :span="8">
@@ -197,6 +196,46 @@
         </el-card>
       </el-col>
     </el-row>
+    <el-row :gutter="24" class="card-row3">
+      <el-col :span="8">
+        <el-card class="file-card">
+          <div id="announce_head">
+            <img
+              src="../assets/img/string.png"
+              alt=""
+              style="vertical-align: middle"
+            />
+            <span> <label>图片上传</label></span>
+          </div>
+          <el-divider></el-divider>
+          <el-input
+            type="text"
+            v-model="fileUploadUrl"
+            auto-complete="off"
+            placeholder="在此输入目标url"
+          >
+          </el-input>
+          <el-upload
+            ref="upload"
+            :action="fileUploadUrl"
+            :before-remove="fileBeforeRemove"
+            multiple
+            :limit="10"
+            :on-exceed="fileHandleExceed"
+            :file-list="fileList"
+            list-type="picture"
+            :auto-upload="false"
+          >
+            <el-button class="button" slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button class="button" style="margin-left: 10px;" size="small" type="success" @click="fileUpload">上传到服务器</el-button>
+            <div slot="tip" class="el-upload__tip">
+              只能上传jpg/png文件，单图片大小不超过500kb，总文件数不超过10
+            </div>
+          </el-upload>
+        </el-card>
+      </el-col>
+      
+    </el-row>
   </div>
 </template>
 
@@ -217,6 +256,13 @@ export default {
       token: "",
       md5In: "",
       md5Out: "",
+      fileList: [
+        // { 
+        //   name: "", 
+        //   url: "" 
+        // }
+      ],
+      fileUploadUrl: "",
     };
   },
   created() {
@@ -312,6 +358,15 @@ export default {
     generateMd5(md5In) {
       this.md5Out = this.$md5(md5In);
     },
+    fileHandleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    fileBeforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    fileUpload(){
+      this.$refs.upload.submit();
+    }
   },
 };
 </script>
@@ -399,6 +454,11 @@ export default {
 }
 .card-row3 {
   margin-bottom: 40px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.card-row4 {
+  margin-bottom: 40px;
   height: 300px;
   display: flex;
   flex-wrap: wrap;
@@ -447,6 +507,14 @@ export default {
   /*transition: all .5s;*/
 }
 .image-card {
+  /*min-width: 100%;*/
+  height: 100%;
+  margin-right: 20px;
+  padding: "20px";
+
+  /*transition: all .5s;*/
+}
+.file-card {
   /*min-width: 100%;*/
   height: 100%;
   margin-right: 20px;

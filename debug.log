@@ -2,3 +2,4 @@
 [1029/155546.372:ERROR:exception_snapshot_win.cc(99)] thread ID 6304 not found in process
 [1029/155546.368:ERROR:process_reader_win.cc(123)] NtOpenThread: {无法访问} 过程已请求访问一对象，但未给访问权限。 (0xc0000022)
 [1029/155546.372:ERROR:exception_snapshot_win.cc(99)] thread ID 13328 not found in process
+[1207/212041.343:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系统找不到指定的路径。 (0x3)
