@@ -378,29 +378,28 @@ export default {
       }
       return -1;
     },
-    fileUploadRequest(param){
+    async fileUploadRequest(param){
       var self = this;
       var file = param.file;
       var isImage = (file.type.indexOf('image') != -1);
       var isExceed = (file.size > (500 * 1024));
       var index = this.indexOfUidInUploadFiles(file.uid);
+      var isSuccess = true;
       console.log(index);
       console.log(param);
       console.log(self.$refs.upload.uploadFiles);
       if(!isImage){
         this.$message.error(`文件 ${file.name} 并非图片文件，上传失败`);
-        self.$refs.upload.uploadFiles[index].status = "fail";
         return;
       }
       if(isExceed){
         this.$message.error(`文件 ${file.name} 大小为 ${file.size / 1024}kb，大于500kb限制，文件上传失败`);
-        self.$refs.upload.uploadFiles[index].status = "fail";
         return;
       }
-      formData = new FormData();
+      var formData = new FormData();
       formData.append(file.name, file);
       self.$refs.upload.uploadFiles[index].percentage = 30;
-      this.$axios.post(
+      var response = await this.$axios.post(
         param.action, 
         formData,
         {
@@ -409,17 +408,20 @@ export default {
           }
         }
       )
-      .then(function(response){
-        this.imgUrl = response.data.url;
-      })
       .catch(function(error){
-        this.$message.error(`出现网络问题 ${error.code}，文件 ${file.name} 上传失败，请重试`);
+        isSuccess = false;
+        self.$message.error(`出现网络问题 ${error.code}，文件 ${file.name} 上传失败，请重试`);
         self.$refs.upload.uploadFiles[index].percentage = 0;
         return;
       });
-      self.$refs.upload.uploadFiles[index].percentage = 100;
-      self.$refs.upload.uploadFiles[index].status = "success";
+      console.log(isSuccess);
+      if (isSuccess){
+        this.imgUrl = response.data.url;
+        self.$refs.upload.uploadFiles[index].percentage = 100;
+        return;
+      }
       return;
+      
     }
   },
 };
