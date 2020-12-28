@@ -322,7 +322,6 @@ export default {
       if (result_temp.data.imgUrl != null) {
         this.imgUrl = result_temp.data.imgUrl;
       }
-      console.log(result_temp);
       this.setStorage();
     },
     async postResult() {
@@ -336,7 +335,6 @@ export default {
       if (result_temp.data.imgUrl != null) {
         this.imgUrl = result_temp.data.imgUrl;
       }
-      console.log(result_temp);
       this.setStorage();
     },
     setStorage() {

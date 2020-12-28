@@ -30,16 +30,52 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 import store from './store'
-
-//拦截器 发送请求前,会发送一个token
-axios.interceptors.request.use(config => {
+//请求拦截器 发送请求前,会发送一个token
+axios.interceptors.request.use((config) => {
   var temp;
-  console.log(config);
+  print(config);
   if ((temp = window.sessionStorage.getItem("token")) != null) {
     config.headers.token = window.sessionStorage.getItem('token');
   }
   return config;
-});
+}, (error) => {
+  Vue.prototype.$message.error("请求错误");
+  return Promise.reject(error);
+}
+);
+//响应拦截器 发送请求前,会发送一个token
+axios.interceptors.response.use((config) => {
+  print(config);
+  if(config.data.code == undefined || config.data.code == null){
+    return config;
+  }
+  else if(config.data.code == 500){
+    this.$message.error("长时间未操作，请重新登录");
+    window.sessionStorage.clear();
+    this.$router.push("/login");
+  }
+  return config;
+  
+}, (error) => {
+  //当响应异常时
+  let isTimeout = error.toString().includes('timeout')
+  if (isTimeout) {
+    Vue.prototype.$message({
+      message: '请求超时...',
+      type: 'warning',
+      duration: 2000,
+      showClose: true
+    })
+  }
+  return Promise.reject(error);
+}
+);
+
+//全局调试用打印功能
+print = async function (object) {
+  console.log(object);
+}
+Vue.prototype.$print = print;
 
 //md5加密
 import md5 from 'js-md5'
